@@ -18,16 +18,6 @@ function removeOneCharacter (index) {
     });
     setCharacters(updated);
   }
-  function updateList(person) {
-    setCharacters([...characters, person]);
-  }
- 
-  return (
-    <div className="container">
-      <Table characterData={characters} removeCharacter={removeOneCharacter} />
-      <Form handleSubmit={updateList} />
-    </div>
-  )
 
   async function fetchAll(){
     try {
@@ -54,9 +44,16 @@ function removeOneCharacter (index) {
 
 function updateList(person) { 
   makePostCall(person).then( result => {
-  if (result && result.status == 201)
+  if (result && (result.status === 201))
      setCharacters([...characters, person] );
   });
 }
+
+return (
+  <div className="container">
+    <Table characterData={characters} removeCharacter={removeOneCharacter} />
+    <Form handleSubmit={updateList} />
+  </div>
+)
 }
 export default MyApp;

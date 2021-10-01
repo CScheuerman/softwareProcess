@@ -70,7 +70,7 @@ def get_users():
       userToAdd = request.get_json()
       users['users_list'].remove(userToAdd)
       resp = jsonify(success=True)
-      #resp.status_code = 200 #optionally, you can always set a response code. 
+      #resp.status_code = 201 #optionally, you can always set a response code. 
       # 200 is the default code for a normal respo
       return resp
 
