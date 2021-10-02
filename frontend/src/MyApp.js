@@ -12,11 +12,21 @@ useEffect(() => {
    });
 }, [] );
 
-function removeOneCharacter (index) {
-  const updated = characters.filter((character, i) => {
-      return i !== index
-    });
-    setCharacters(updated);
+async function removeOneCharacter (index) {
+  const userID = characters[index].id
+  const url = 'http://localhost:5000/users/'+ userID
+  const res = await axios.delete(url)
+  if (res && (res.status === 204)){
+     const updated = characters.filter((character, i) => {
+     return i !== index
+     });
+   setCharacters(updated);
+   return res
+  }
+  if(res && (res.status === 404)){
+     console.log("resource not found")
+  }
+  return res
   }
 
   async function fetchAll(){

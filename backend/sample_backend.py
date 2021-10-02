@@ -68,19 +68,28 @@ def get_users():
       resp = jsonify(data=userToAdd)
       resp.status_code = 201 
       return resp
-   elif request.method == 'DELETE':
-      userToAdd = request.get_json()
-      users['users_list'].remove(userToAdd)
-      resp = jsonify(success=True)
-      #resp.status_code = 201 #optionally, you can always set a response code. 
-      # 200 is the default code for a normal respo
-      return resp
+   
 def addId(user):
    user['id'] = ''.join(random.choice(string.ascii_lowercase) for _ in range(3)) +  ''.join(random.choice(string.digits) for _ in range(3))
    return user
 
-@app.route('/users/<id>')
+@app.route('/users/<id>', methods=['GET', 'DELETE'])
 def get_user(id):
+   userToRemove = find_user(id)
+   if(userToRemove == {}):
+      resp = jsonify(success=False)
+      resp.status_code = 404 #optionally, you can always set a response code. 
+      # 200 is the default code for a normal respo
+      return resp
+   if request.method == 'DELETE':
+      users['users_list'].remove(userToRemove)
+      resp = jsonify(success=True)
+      resp.status_code = 204 #optionally, you can always set a response code. 
+      # 200 is the default code for a normal respo
+      return resp
+   return jsonify(success=False)
+   
+def find_user(id):
    if id :
       for user in users['users_list']:
         if user['id'] == id:
