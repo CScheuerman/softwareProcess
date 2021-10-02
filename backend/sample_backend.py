@@ -65,7 +65,7 @@ def get_users():
       userToAdd = request.get_json()
       userToAdd = addId(userToAdd)
       users['users_list'].append(userToAdd)
-      resp = jsonify(data=userToAdd)
+      resp = jsonify(userToAdd)
       resp.status_code = 201 
       return resp
    
